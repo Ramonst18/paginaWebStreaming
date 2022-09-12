@@ -7,7 +7,7 @@ def inicio():
 
 @app.route('/registro_p')
 def registro_p():
-    return render_template('registroPeliculas.html')
+    return render_template('registro_Peliculas.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
