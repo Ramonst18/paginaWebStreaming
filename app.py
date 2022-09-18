@@ -16,6 +16,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['UPLOAD_FOLDER'] = './static/images/'
 engine = iniciar_bd(app, cadenapsql)
 
+Bootstrap(app)
 @app.route('/')
 def inicio():
     return render_template('inicio.html')
