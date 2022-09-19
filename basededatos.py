@@ -12,7 +12,7 @@ def iniciar_bd(app, cadenapsql):
 
 def crear_bd(app, engine):
     inspeccionar = inspect(engine)
-    if (not inspeccionar.has_table("Peliculas", schema="dbo")):
+    if (not inspeccionar.has_table("peliculas", schema="dbo")):
         app.app_context().push()
         Base.metadata.create_all(engine)
         print("Tablas creadas")

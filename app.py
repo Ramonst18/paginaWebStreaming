@@ -47,11 +47,12 @@ def registro_p():
         
         #Creamos la clase y guardamos la informacion en la base de datos
         peliculas = Peliculas(titulo, anio, director, genero, duracion, elenco, clasificacion_IMBD, pais, clasificacion_edad, sinopsis, poster_nombre, Tcontenido)
+        
         db.session.add(peliculas)
         db.session.commit()
         peliculasResultado = db.session.query(Peliculas).all()
-        
-        return render_template('registro_Peliculas.html', data=peliculasResultado)
+        print(peliculasResultado)
+        return render_template('registro_Peliculas.html')
     return render_template('registro_Peliculas.html')
 
 if __name__ == '__main__':
