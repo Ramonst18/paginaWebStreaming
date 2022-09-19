@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, inspect
+from tablas import Base
 db = SQLAlchemy()
 
 def iniciar_bd(app, cadenapsql):
@@ -8,3 +9,10 @@ def iniciar_bd(app, cadenapsql):
     engine = create_engine(cadenapsql)
     print("Se inició la base de datos")
     return engine
+
+def crear_bd(app, engine):
+    inspeccionar = inspect(engine)
+    if (not inspeccionar.has_table("Peliculas", schema="dbo")):
+        app.app_context().push()
+        Base.metadata.create_all(engine)
+        print("Tablas creadas")
