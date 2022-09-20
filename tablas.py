@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 Base = declarative_base()
 
 class Peliculas(Base):
-    """Contiene toda la estructura para poder mandar informacion
+    """Contiene toda la estructura para poder mandar o solicitar informacion
     a la tabla peliculas de la base de datos"""
     __tablename__ = "peliculas"
     
@@ -49,3 +49,23 @@ class Peliculas(Base):
     def __repr__(self):
         return '<id {}>'.format(self.id_pelicula)
 
+class Administradores(Base):
+    """Contiene toda la estructura para poder mandar o solicitar informacion
+    a la tabla peliculas de la base de datos"""
+    __tablename__ = "administradores"
+    
+    #Atributos de clase
+    id_admin = Column(Integer, primary_key=True)
+    nombre = Column(String)
+    apellido_paterno = Column(String)
+    apellido_materno = Column(String)
+    contraseña = Column(String)
+    
+    def __init__(self, nombre, apellido_paterno, apellido_materno, contraseña):
+        self.nombre = nombre
+        self.apellido_paterno = apellido_paterno
+        self.apellido_materno = apellido_materno
+        self.contraseña = contraseña
+        
+    def __repr__(self):
+        return '<id {}>'.format(self.id_admin)

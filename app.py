@@ -17,6 +17,12 @@ app.config['UPLOAD_FOLDER'] = './static/images/'
 engine = iniciar_bd(app, cadenapsql)
 crear_bd(app, engine)
 Bootstrap(app)
+
+###### Para realizar la solicitud de informacion de alguna de las tablas se debera de poner lo siguiente
+# Resultado = db.session.query("Nombre de la tabla, inicial mayuscula y sin comillas").all()
+# Ejemplo: peliculasResultado = db.session.query(Peliculas).all()
+
+
 @app.route('/')
 def inicio():
     return render_template('inicio.html')
