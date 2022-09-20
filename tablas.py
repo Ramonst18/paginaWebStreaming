@@ -5,7 +5,7 @@ Base = declarative_base()
 
 class Peliculas(Base):
     """Contiene toda la estructura para poder mandar informacion
-    a la tabla Peliculas de la base de datos"""
+    a la tabla peliculas de la base de datos"""
     __tablename__ = "peliculas"
     
     #Atributos de clase
@@ -48,3 +48,4 @@ class Peliculas(Base):
     
     def __repr__(self):
         return '<id {}>'.format(self.id_pelicula)
+
