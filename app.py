@@ -1,65 +1,70 @@
-from flask import Flask, render_template,request,session
+from datetime import date
+from Database import Database
+from flask import Flask, render_template, request, session
 from flask_bootstrap import Bootstrap
-from basededatos import iniciar_bd, db, crear_bd
-from tablas import Peliculas
-from os.path import join, dirname
-from dotenv import load_dotenv
-from sqlalchemy.sql.expression import func
-from os import getenv
+from passlib.hash import sha256_crypt
+from werkzeug.utils import redirect
+import json
 import os
+import secrets
+
 app = Flask(__name__)
-dotenv_path = join(dirname(__file__), '.env')
-load_dotenv(dotenv_path)
-cadenapsql = getenv('DATABASEURI')
-app.config['SQLALCHEMY_DATABASE_URI'] = cadenapsql
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['UPLOAD_FOLDER'] = './static/images/'
-engine = iniciar_bd(app, cadenapsql)
-crear_bd(app, engine)
+app.secret_key = secrets.token_hex(16)
+UPLOAD_FOLDER = './static/images/posters/' # Folder donde se guardaran los posters
 Bootstrap(app)
 
-###### Para realizar la solicitud de informacion de alguna de las tablas se debera de poner lo siguiente
-# Resultado = db.session.query("Nombre de la tabla, inicial mayuscula y sin comillas").all()
-# Ejemplo: peliculasResultado = db.session.query(Peliculas).all()
+bd = Database() # Objeto correspondiente a la BD
 
+'''
+    SOBRE LA REALIZACIÓN DE QUERIES:
+    > Query regresa resultado (SELECT)?
+        resultado = db.execute_query_return(sql:str)
+    > Query no regresa resultado (INSERT,UPDATE,DELETE)?
+        db.execute_query(sql:str)
+'''
 
+# Página principal del servicio
 @app.route('/')
 def inicio():
     return render_template('inicio.html')
 
-@app.route('/registro_p', methods=["GET", "POST"])
-def registro_p():
-    #realizamos las consultas y guardamos en una variable
-    peliculasResultado = db.session.query(Peliculas).all()
-    
+# Módulo de registro de películas (Sólo accesible para admin)
+# NECESITA VALIDACIÓN DE INICIO DE SESIÓN
+@app.route('/registro_peliculas', methods=["GET", "POST"])
+def registro_peliculas():
     if request.method == 'POST':
         # Obtenemos todos los atributos y las almacenamos en variables
         titulo = request.form["Titulo"]
-        anio = int(request.form["Anio"])
+        año = int(request.form["Año"])
         director = request.form["Director"]
         genero = request.form["Genero"]
         duracion = int(request.form["Duracion"])
         elenco = request.form["Elenco"]
-        clasificacion_IMBD = float(request.form["CIMDB"])
+        calif_IMBD = float(request.form["CIMDB"])
         pais = request.form["Pais"]
-        clasificacion_edad = request.form["Cedad"]
+        clasificacion_edad = request.form["CEdad"]
         sinopsis = request.form["Sinopsis"]
-        Tcontenido = request.form["Tcontenido"]
         
         #Para guardar la imagen del poster
         poster = request.files["Poster"]
         poster_nombre = poster.filename
-        poster.save(os.path.join(app.config['UPLOAD_FOLDER'], poster_nombre))
+        poster.save(os.path.join(UPLOAD_FOLDER, poster_nombre))
         
-        #Creamos la clase y guardamos la informacion en la base de datos
-        peliculas = Peliculas(titulo, anio, director, genero, duracion, elenco, clasificacion_IMBD, pais, clasificacion_edad, sinopsis, poster_nombre, Tcontenido)
+        stream_video = request.form["StreamVideo"]
+        fecha_agregada = str(date.today())
+        tipo_contenido = request.form["TContenido"]
         
-        db.session.add(peliculas)
-        db.session.commit()
-        peliculasResultado = db.session.query(Peliculas).all()
-        print(peliculasResultado)
-        return render_template('registro_Peliculas.html')
-    return render_template('registro_Peliculas.html')
+        
+        # Preparar el SQL statement
+        sql = ("INSERT INTO Peliculas(titulo,año,director,genero,duracion,elenco,calif_imbd,pais,clasif_por_edad,sinopsis,poster,stream_video,fecha_agregada,visualizaciones,tipo_contenido)"
+           "VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', '{10}', '{11}', '{12}', '{13}', '{14}');").format(
+               titulo,año,director,genero,duracion,elenco,calif_IMBD,pais,clasificacion_edad,sinopsis,
+               poster_nombre,stream_video,fecha_agregada,0,tipo_contenido
+           )
+
+        bd.execute_query(sql) # Realizar la consulta
+ 
+    return render_template('registro_peliculas.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
