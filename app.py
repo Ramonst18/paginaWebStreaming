@@ -23,7 +23,9 @@ bd = Database() # Objeto correspondiente a la BD
         db.execute_query(sql:str)
 '''
 
-# Página principal del servicio
+# Página donde se mostrará el inicio del servicio, aqui se mostrará los botones de inicio de sesion
+# O de registro de usuario, despues de darle a uno se redireccionará a la pagina de inicio de sesion 
+# O de registro
 @app.route('/')
 def inicio():
     return render_template('inicio.html')
@@ -65,6 +67,22 @@ def registro_peliculas():
         bd.execute_query(sql) # Realizar la consulta
  
     return render_template('registro_peliculas.html')
+
+# Pagina donde se mostrará las peliculas y las opciones de administrador en el caso de que 
+# la persona sea admin
+#@app.route('/principal')
+#def principal():
+
+# Modulo de registro de usuarios
+@app.route('/registro')
+def registro_usuarios():
+    return render_template('registrarse.html')    
+
+# Modulo de cuenta del usuario
+# Aqui se podra actualizar los datos del cliente
+@app.route('/mi_cuenta')
+def cuenta():
+    return render_template('mi_cuenta.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
