@@ -4,7 +4,7 @@ class Database:
     SERVIDOR = 'localhost'
     BASE_DATOS = 'kinoscope_bd'
     USUARIO = 'postgres'
-    CONTRASEÑA = 'sayashi384'
+    CONTRASEÑA = 'Patata12'
     PORT = 5432
     CONNECTION_STR = None
     conn = None # Conexión a la BD
