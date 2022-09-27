@@ -13,7 +13,7 @@ class Database:
     # Constructor
     def __init__(self) -> None:
         self.CONNECTION_STR = "dbname={0} user={1} password={2} host={3} port={4}".format(
-            self.__BASE_DATOS, self.__USUARIO, self.__CONTRASEÑA, self.__SERVIDOR, self.__PORT
+            self.BASE_DATOS, self.USUARIO, self.CONTRASEÑA, self.SERVIDOR, self.PORT
         )
     
     def open_connection(self) -> None:
