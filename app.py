@@ -1,4 +1,5 @@
 from datetime import date
+from Administrador import Administrador
 from Database import Database
 from flask import Flask, render_template, request, session
 from passlib.hash import sha256_crypt
@@ -52,6 +53,23 @@ def login_cliente():
     else:   
         return render_template('login.html', error=None)
 # Módulo login admin
+@app.route('/admin_login', methods=["GET", "POST"])
+def login_admin():
+    if request.method == 'POST':
+        ID = request.form['ID']
+        #print(cliente.nombre + " " + cliente.ap_paterno + " " + cliente.ap_materno)
+        if email_registrado(ID):
+            #print(email)
+            admin = obtener_admin(ID)
+            if (sha256_crypt.verify(request.form['password'],cliente.contraseña) == True):   
+                session['email'] = email
+                return redirect('/')
+            else:
+                return render_template('login.html', error='Password incorrecto')
+        else:
+                return render_template('login.html', error='E-mail incorrecto')
+    else:   
+        return render_template('login.html', error=None)
 
 # Módulo logout
 
@@ -133,6 +151,11 @@ def obtener_cliente(email:str) -> Cliente:
     cliente_dict = res[0][0]
     cliente = Cliente(**cliente_dict)
     return cliente
+
+# Metodo para buscar en la bd al admin con la ID dada por el formulario de inicio de sesion 
+    
+# def_ obtener_admin(ID:int) -> Administrador:
+#    sql = ""
 
 if __name__ == '__main__':
     app.run(debug=True)
