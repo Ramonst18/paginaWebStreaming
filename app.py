@@ -61,8 +61,8 @@ def login_admin():
         if email_registrado(ID):
             #print(email)
             admin = obtener_admin(ID)
-            if (sha256_crypt.verify(request.form['password'],cliente.contraseña) == True):   
-                session['email'] = email
+            if (sha256_crypt.verify(request.form['password'],admin.contraseña) == True):   
+                session['ID'] = ID
                 return redirect('/')
             else:
                 return render_template('login.html', error='Password incorrecto')
@@ -152,10 +152,22 @@ def obtener_cliente(email:str) -> Cliente:
     cliente = Cliente(**cliente_dict)
     return cliente
 
+# Método que valida si un ID ya está registrado en la BD
+def ID_registrado(ID:int) -> bool:
+    sql = "SELECT COUNT(id_admin) FROM Administradores WHERE id_admin='{0}';".format(ID)
+    res = bd.execute_query_return(sql)
+    return res[0][0] == 1
+
+
+
 # Metodo para buscar en la bd al admin con la ID dada por el formulario de inicio de sesion 
     
-# def_ obtener_admin(ID:int) -> Administrador:
-#    sql = ""
+def obtener_admin(ID:int) -> Administrador:
+    sql = "SELECT row_to_json(ID) FROM(SELECT * FROM Administradores WHERE id_admin='{0}') AS id_admin;".format(ID)
+    res = bd.execute_query_return(sql)
+    administrador_dict = res[0][0]
+    admin = Administrador(**administrador_dict)
+    return admin 
 
 if __name__ == '__main__':
     app.run(debug=True)
