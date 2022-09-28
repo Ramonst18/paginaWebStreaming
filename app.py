@@ -3,6 +3,7 @@ from Database import Database
 from flask import Flask, render_template, request, session
 from passlib.hash import sha256_crypt
 from werkzeug.utils import redirect
+from Cliente import Cliente
 import json
 import os
 import secrets
@@ -33,7 +34,23 @@ def index():
         return render_template('index.html')
 
 # Módulo login cliente
-
+@app.route('/login', methods=["GET", "POST"])
+def login_cliente():
+    if request.method == 'POST':
+        email = request.form['email']
+        #print(cliente.nombre + " " + cliente.ap_paterno + " " + cliente.ap_materno)
+        if email_registrado(email):
+            #print(email)
+            cliente = obtener_cliente(email)
+            if (sha256_crypt.verify(request.form['password'],cliente.contraseña) == True):   
+                session['email'] = email
+                return redirect('/')
+            else:
+                return render_template('login.html', error='Password incorrecto')
+        else:
+                return render_template('login.html', error='E-mail incorrecto')
+    else:   
+        return render_template('login.html', error=None)
 # Módulo login admin
 
 # Módulo logout
@@ -101,6 +118,21 @@ def registro_usuarios():
 @app.route('/mi_cuenta')
 def cuenta():
     return render_template('mi_cuenta.html')
+
+### Metodos
+# Método que valida si un email ya está registrado en la BD
+def email_registrado(email:str) -> bool:
+    sql = "SELECT COUNT(id_cliente) FROM Clientes WHERE email='{0}';".format(email)
+    res = bd.execute_query_return(sql)
+    return res[0][0] == 1
+
+# Método para buscar en la BD al cliente con el email dado en el formulario de inicio de sesión
+def obtener_cliente(email:str) -> Cliente:
+    sql = "SELECT row_to_json(cliente) FROM (SELECT * FROM Clientes WHERE email='{0}') AS cliente;".format(email)
+    res = bd.execute_query_return(sql)
+    cliente_dict = res[0][0]
+    cliente = Cliente(**cliente_dict)
+    return cliente
 
 if __name__ == '__main__':
     app.run(debug=True)
