@@ -1,7 +1,6 @@
 from datetime import date
 from Database import Database
 from flask import Flask, render_template, request, session
-from flask_bootstrap import Bootstrap
 from passlib.hash import sha256_crypt
 from werkzeug.utils import redirect
 import json
@@ -11,7 +10,6 @@ import secrets
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)
 UPLOAD_FOLDER = './static/images/posters/' # Folder donde se guardaran los posters
-Bootstrap(app)
 
 bd = Database() # Objeto correspondiente a la BD
 
@@ -23,12 +21,32 @@ bd = Database() # Objeto correspondiente a la BD
         db.execute_query(sql:str)
 '''
 
-# Página donde se mostrará el inicio del servicio, aqui se mostrará los botones de inicio de sesion
-# O de registro de usuario, despues de darle a uno se redireccionará a la pagina de inicio de sesion 
-# O de registro
+# Página principal del sitio web
 @app.route('/')
-def inicio():
-    return render_template('inicio.html')
+def index():
+    if 'email' in session:
+        #login = True
+        # redirect comentado hatsa implementar catalogo.html
+        redirect('/catalogo.html')
+    else:
+        # Cuando el usuario no ha iniciado sesión           
+        return render_template('index.html')
+
+# Módulo login cliente
+
+# Módulo login admin
+
+# Módulo logout
+
+# Módulo registro de clientes
+
+# Módulo de navegar catálogo
+@app.route('/catalogo.html', methods=["GET", "POST"])
+def ver_catalogo():
+    usuario = None
+    if 'email' in session:
+        usuario = session.get('email')
+    return render_template('catalogo.html', user=usuario)
 
 # Módulo de registro de películas (Sólo accesible para admin)
 # NECESITA VALIDACIÓN DE INICIO DE SESIÓN
