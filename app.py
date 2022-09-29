@@ -52,6 +52,7 @@ def login_cliente():
                 return render_template('login.html', error='E-mail incorrecto')
     else:   
         return render_template('login.html', error=None)
+
 # Módulo login admin
 @app.route('/admin_login', methods=["GET", "POST"])
 def login_admin():
@@ -73,6 +74,13 @@ def login_admin():
 
 # Módulo logout
 
+# Módulo registro de administradores
+@app.route('/r_admin', methods=["GET", "POST"])
+def registro_admins():
+    if request.method == 'POST':
+        ################## En progreso. atte. ramon
+        print("En progresooooooo")
+    return render_template('registro_admin.html')
 # Módulo registro de clientes
 
 # Módulo de navegar catálogo
