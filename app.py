@@ -104,6 +104,21 @@ def registro():
     else:
         return render_template('registro.html',error=None)
 
+# Módulo registro de administradores
+@app.route('/registro_admin',methods=['GET','POST'])
+def registro():
+    if request.method == 'POST':
+        if not id_registrado(request.form['id']):
+            if request.form['contraseña'] == request.form['confirmar_contraseña']:
+                registrar_cliente(request.form.to_dict()) # Usar formulario convertido en diccionario como parámetro
+                session['id'] = request.form['id']
+                return redirect('/')
+            else:
+                return render_template('registro_admin.html',error="Las contraseñas no coinciden. Inténtelo de nuevo.")
+        else:
+            return render_template('registro_admin.html',error="El ID ya está registrado.")
+    else:
+        return render_template('registro_admin.html',error=None)
 
 # Módulo de navegar catálogo
 @app.route('/catalogo', methods=["GET", "POST"])
@@ -176,6 +191,12 @@ def email_registrado(email:str) -> bool:
     #print("email_registrado -> ", type(res))
     return res[0][0] == 1
 
+# Método que valida si un ID ya está registrado en la BD
+def id_registrado(id:str) -> bool:
+    sql = "SELECT COUNT(id_admin) FROM administradores WHERE id_admin='{0}';".format(id)
+    res = bd.execute_query_return(sql)
+    #print("email_registrado -> ", type(res))
+    return res[0][0] == 1
 
 # Método que registra en la BD un nuevo cliente con los datos del formulario
 def registrar_cliente(formulario_registro:dict) -> None:
@@ -191,6 +212,18 @@ def registrar_cliente(formulario_registro:dict) -> None:
            
     bd.execute_query(sql)
 
+# Método que registra en la BD un nuevo administrador con los datos del formulario
+def registrar_cliente(formulario_registro:dict) -> None:
+    sql = ("INSERT INTO administradores(id_admin, nombre, apellido_paterno, apellido_materno, contraseña)"
+           "VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');").format(
+               formulario_registro['id'],
+               formulario_registro['nombre'],
+               formulario_registro['apellido_paterno'],
+               formulario_registro['apellido_materno'],
+               sha256_crypt.hash(formulario_registro['contraseña']),
+           )
+           
+    bd.execute_query(sql)
 
 # Método para buscar en la BD al cliente con el email dado en el formulario de inicio de sesión
 def obtener_cliente(email:str) -> Cliente:
