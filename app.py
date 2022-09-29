@@ -106,12 +106,12 @@ def registro():
 
 # Módulo registro de administradores
 @app.route('/registro_admin',methods=['GET','POST'])
-def registro():
+def registro_admin():
     if request.method == 'POST':
-        if not id_registrado(request.form['id']):
+        if not id_registrado(request.form['id_admin']):
             if request.form['contraseña'] == request.form['confirmar_contraseña']:
                 registrar_cliente(request.form.to_dict()) # Usar formulario convertido en diccionario como parámetro
-                session['id'] = request.form['id']
+                session['id_admin'] = request.form['id_admin']
                 return redirect('/')
             else:
                 return render_template('registro_admin.html',error="Las contraseñas no coinciden. Inténtelo de nuevo.")
@@ -192,8 +192,8 @@ def email_registrado(email:str) -> bool:
     return res[0][0] == 1
 
 # Método que valida si un ID ya está registrado en la BD
-def id_registrado(id:str) -> bool:
-    sql = "SELECT COUNT(id_admin) FROM administradores WHERE id_admin='{0}';".format(id)
+def id_registrado(id_admin:str) -> bool:
+    sql = "SELECT COUNT(id_admin) FROM administradores WHERE id_admin='{0}';".format(id_admin)
     res = bd.execute_query_return(sql)
     #print("email_registrado -> ", type(res))
     return res[0][0] == 1
@@ -215,8 +215,8 @@ def registrar_cliente(formulario_registro:dict) -> None:
 # Método que registra en la BD un nuevo administrador con los datos del formulario
 def registrar_cliente(formulario_registro:dict) -> None:
     sql = ("INSERT INTO administradores(id_admin, nombre, apellido_paterno, apellido_materno, contraseña)"
-           "VALUES('{0}', '{1}', '{2}', '{3}', '{4}', '{5}');").format(
-               formulario_registro['id'],
+           "VALUES('{0}', '{1}', '{2}', '{3}', '{4}');").format(
+               formulario_registro['id_admin'],
                formulario_registro['nombre'],
                formulario_registro['apellido_paterno'],
                formulario_registro['apellido_materno'],
