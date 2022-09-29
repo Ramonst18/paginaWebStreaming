@@ -1,21 +1,40 @@
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar sesion</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>Iniciar sesión (Administrador) | Kinoscope</title>
+    <style>
+        html, body, div {
+            /* Ajustar alto y ancho de la vista */
+            height: 100%;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <form action="" method="post">
-    <input type="text" name="ID" placeholder="ID del administrador">
-    <br><br>
-    <input type="text" name="password" placeholder="Contraseña">
-    <br><br>
-    <button type="submit">Ingresar</button>
-
-
-</form>
-
-
+    <!-- Contenido -->
+    <div class="container">
+        <!-- Formulario login admin -->
+        <form action="" method="post">
+            <div class="container">
+                <h1>Iniciar sesión | Administrador</h1>
+                <hr>
+                
+                <label for="ID"><b>ID de administrador</b></label><br>
+                <input type="text" placeholder="Correo electrónico" name="ID" id="ID" required><br>
+                
+                <label for="password"><b>Contraseña</b></label><br>
+                <input type="password" placeholder="Contraseña" name="password" id="password" required><br>
+                
+                <hr>
+                {% if error %}
+                <span><strong>Error:</strong> {{ error }}</span><br>
+                {% endif %}
+                <button type="submit" class="btn btn-dark">Iniciar sesión</button>
+            </div>
+        </form>
+        <!-- Formulario login admin -->
+    </div>
+    <!-- Contenido -->
 </body>
 </html>
