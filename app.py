@@ -31,7 +31,7 @@ bd = Database() # Objeto correspondiente a la BD
 def index():
     # Cuando el cliente ha iniciado sesión
     if 'email' in session:
-        redirect('/catalogo')
+        return redirect('catalogo') # Faltaba asignar return, por eso saltaba TypeError :p
     # Cuando el admin ha iniciado sesión
     elif 'ID_admin' in session:
         return render_template('registro_peliculas')
@@ -47,7 +47,6 @@ def login_cliente():
         email = request.form['email']
         if email_registrado(email):
             cliente = obtener_cliente(email)
-            print(cliente.nombre)
             if (sha256_crypt.verify(request.form['password'],cliente.contraseña) == True):   
                 session['email'] = email
                 return redirect('/catalogo')
@@ -64,7 +63,7 @@ def login_cliente():
 def login_admin():
     if request.method == 'POST':
         ID_admin = request.form['ID']
-        if ID_registrado(ID_admin):
+        if id_registrado(ID_admin):
             admin = obtener_admin(ID_admin)
             if (sha256_crypt.verify(request.form['password'],admin.contraseña) == True):   
                 session['ID_admin'] = ID_admin
@@ -96,13 +95,14 @@ def registro():
             if request.form['contraseña'] == request.form['confirmar_contraseña']:
                 registrar_cliente(request.form.to_dict()) # Usar formulario convertido en diccionario como parámetro
                 session['email'] = request.form['email']
-                return redirect('/')
+                return redirect('/catalogo')
             else:
-                return render_template('registro.html',error="Las contraseñas no coinciden. Inténtelo de nuevo.")
+                return render_template('registro.html', error="Las contraseñas no coinciden. Inténtelo de nuevo.")
         else:
-            return render_template('registro.html',error="El correo electrónico ya está registrado.")
+            return render_template('registro.html', error="El correo electrónico ya está registrado.")
     else:
-        return render_template('registro.html',error=None)
+        return render_template('registro.html', error=None)
+
 
 # Módulo registro de administradores
 @app.route('/registro_admin',methods=['GET','POST'])
@@ -110,15 +110,16 @@ def registro_admin():
     if request.method == 'POST':
         if not id_registrado(request.form['id_admin']):
             if request.form['contraseña'] == request.form['confirmar_contraseña']:
-                registrar_cliente(request.form.to_dict()) # Usar formulario convertido en diccionario como parámetro
+                registrar_admin(request.form.to_dict()) # Usar formulario convertido en diccionario como parámetro
                 session['id_admin'] = request.form['id_admin']
-                return redirect('/')
+                return redirect('/registro_peliculas') # Redirect provisional hasta tener la homepage del admin
             else:
                 return render_template('registro_admin.html',error="Las contraseñas no coinciden. Inténtelo de nuevo.")
         else:
             return render_template('registro_admin.html',error="El ID ya está registrado.")
     else:
         return render_template('registro_admin.html',error=None)
+
 
 # Módulo de navegar catálogo
 @app.route('/catalogo', methods=["GET", "POST"])
@@ -188,15 +189,8 @@ def registro_peliculas():
 def email_registrado(email:str) -> bool:
     sql = "SELECT COUNT(id_cliente) FROM Clientes WHERE email='{0}';".format(email)
     res = bd.execute_query_return(sql)
-    #print("email_registrado -> ", type(res))
     return res[0][0] == 1
 
-# Método que valida si un ID ya está registrado en la BD
-def id_registrado(id_admin:str) -> bool:
-    sql = "SELECT COUNT(id_admin) FROM administradores WHERE id_admin='{0}';".format(id_admin)
-    res = bd.execute_query_return(sql)
-    #print("email_registrado -> ", type(res))
-    return res[0][0] == 1
 
 # Método que registra en la BD un nuevo cliente con los datos del formulario
 def registrar_cliente(formulario_registro:dict) -> None:
@@ -212,9 +206,26 @@ def registrar_cliente(formulario_registro:dict) -> None:
            
     bd.execute_query(sql)
 
+
+# Método para buscar en la BD al cliente con el email dado en el formulario de inicio de sesión
+def obtener_cliente(email:str) -> Cliente:
+    sql = "SELECT row_to_json(cliente) FROM (SELECT * FROM Clientes WHERE email='{0}') AS cliente;".format(email)
+    res = bd.execute_query_return(sql)
+    cliente_dict = res[0][0]
+    cliente = Cliente(**cliente_dict)
+    return cliente
+
+
+# Método que valida si un ID ya está registrado en la BD
+def id_registrado(ID:int) -> bool:
+    sql = "SELECT COUNT(id_admin) FROM Administradores WHERE id_admin='{0}';".format(ID)
+    res = bd.execute_query_return(sql)
+    return res[0][0] == 1
+
+
 # Método que registra en la BD un nuevo administrador con los datos del formulario
-def registrar_cliente(formulario_registro:dict) -> None:
-    sql = ("INSERT INTO administradores(id_admin, nombre, apellido_paterno, apellido_materno, contraseña)"
+def registrar_admin(formulario_registro:dict) -> None:
+    sql = ("INSERT INTO Administradores(id_admin, nombre, apellido_paterno, apellido_materno, contraseña)"
            "VALUES('{0}', '{1}', '{2}', '{3}', '{4}');").format(
                formulario_registro['id_admin'],
                formulario_registro['nombre'],
@@ -225,23 +236,6 @@ def registrar_cliente(formulario_registro:dict) -> None:
            
     bd.execute_query(sql)
 
-# Método para buscar en la BD al cliente con el email dado en el formulario de inicio de sesión
-def obtener_cliente(email:str) -> Cliente:
-    sql = "SELECT row_to_json(cliente) FROM (SELECT * FROM Clientes WHERE email='{0}') AS cliente;".format(email)
-    res = bd.execute_query_return(sql)
-    cliente_dict = res[0][0]
-    cliente = Cliente(**cliente_dict)
-    #print("tras login cliente -> ", type(cliente))
-    return cliente
-
-
-# Método que valida si un ID ya está registrado en la BD
-def ID_registrado(ID:int) -> bool:
-    sql = "SELECT COUNT(id_admin) FROM Administradores WHERE id_admin='{0}';".format(ID)
-    res = bd.execute_query_return(sql)
-    #print("ID_registrado -> ", type(res))
-    return res[0][0] == 1
-
 
 # Metodo para buscar en la bd al admin con la ID dada por el formulario de inicio de sesion 
 def obtener_admin(ID:int) -> Administrador:
@@ -249,8 +243,8 @@ def obtener_admin(ID:int) -> Administrador:
     res = bd.execute_query_return(sql)
     administrador_dict = res[0][0]
     admin = Administrador(**administrador_dict)
-    #print("tras login admin -> ", type(admin))
     return admin 
+
 
 if __name__ == '__main__':
     app.run(debug=True)
