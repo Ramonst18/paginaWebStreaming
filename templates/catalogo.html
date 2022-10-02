@@ -20,7 +20,7 @@
 <body>
     <!-- NavBar general -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-black" style="background-color: #000000;">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
             <img src="/static/images/logo.png" width="42" height="42" class="d-inline-block">
             Kinoscope
         </a>
@@ -50,7 +50,7 @@
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Buscar película" aria-label="Search">
-                <button class="btn btn-light my-2 my-sm-0" type="submit">Buscar</button>
+                <button class="btn btn-light my-2 mr-3 my-sm-0" type="submit">Buscar</button>
             </form>
             
             {% if user %}
@@ -60,7 +60,7 @@
             </a>
             <a href="/logout" class="btn btn-outline-light my-2 my-sm-0">Salir</a>
             {% else %}
-            <a href="/login" class="btn btn-light">Iniciar Sesión</a>
+            <a href="/login" class="btn btn-outline-light">Iniciar Sesión</a>
             {% endif %}
         </div>
     </nav>
@@ -71,56 +71,64 @@
         <h5>Top 10</h5>
         <div class="row">
             <div id="carouselTop10" class="carousel slide h-25" data-ride="carousel" data-interval="false">
-                <div class="carousel-inner d-flex w-100" role="listbox">
-                    <div class="carousel-item active">
-                        <a href="#">
-                            <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
-                        </a>
+                <div class="carousel-inner w-100 d-flex mx-auto justify-content-center" role="listbox">
+                    <div class="carousel-item w-75 mx-auto active">
+                        <div class="row mx-auto">
+                            <div class="col">
+                                <a href="#">
+                                    <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="#">
+                                    <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="#">
+                                    <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="#">
+                                    <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="#">
+                                    <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="carousel-item">
-                        <a href="#">
-                            <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#">
-                            <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#">
-                            <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#">
-                            <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#">
-                            <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#">
-                            <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#">
-                            <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#">
-                            <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#">
-                            <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
-                        </a>
+                    <div class="carousel-item w-75 mx-auto">
+                        <div class="row mx-auto">
+                            <div class="col">
+                                <a href="#">
+                                    <img src="/static/images/logo.png" width="134" height="200" class="img-fluid mx-auto d-flex">
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="#">
+                                    <img src="/static/images/logo.png" width="134" height="200" class="img-fluid mx-auto d-flex">
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="#">
+                                    <img src="/static/images/logo.png" width="134" height="200" class="img-fluid mx-auto d-flex">
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="#">
+                                    <img src="/static/images/logo.png" width="134" height="200" class="img-fluid mx-auto d-flex">
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a href="#">
+                                    <img src="/static/images/logo.png" width="134" height="200" class="img-fluid mx-auto d-flex">
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <a class="carousel-control-prev" href="#carouselTop10" role="button" data-slide="prev">
