@@ -15,6 +15,8 @@
             background-color: white!important;
         }
     </style>
+    <link href="/static/css/catalogo.css" rel="stylesheet" >
+
 </head>
 
 <body>
@@ -70,74 +72,40 @@
     <div class="container-fluid text-white font-weight-bold" style="background-color: black;">
         <h5>Top 10</h5>
         <div class="row">
-            <div id="carouselTop10" class="carousel slide h-25" data-ride="carousel" data-interval="false">
-                <div class="carousel-inner w-100 d-flex mx-auto justify-content-center" role="listbox">
-                    <div class="carousel-item w-75 mx-auto active">
-                        <div class="row mx-auto">
-                            <div class="col">
-                                <a href="#">
-                                    <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
-                                </a>
-                            </div>
-                            <div class="col">
-                                <a href="#">
-                                    <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
-                                </a>
-                            </div>
-                            <div class="col">
-                                <a href="#">
-                                    <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
-                                </a>
-                            </div>
-                            <div class="col">
-                                <a href="#">
-                                    <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
-                                </a>
-                            </div>
-                            <div class="col">
-                                <a href="#">
-                                    <img src="/static/images/posters/Persona-578772508-large.jpg" width="134" height="200" class="img-fluid mx-auto d-flex">
-                                </a>
-                            </div>
-                        </div>
+            <div id="carousel-example" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner row w-100 mx-auto" role="listbox">
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 active">
+                        <img src="/static/images/logo.png" class="img-fluid mx-auto d-block" alt="img1">
                     </div>
-                    <div class="carousel-item w-75 mx-auto">
-                        <div class="row mx-auto">
-                            <div class="col">
-                                <a href="#">
-                                    <img src="/static/images/logo.png" width="134" height="200" class="img-fluid mx-auto d-flex">
-                                </a>
-                            </div>
-                            <div class="col">
-                                <a href="#">
-                                    <img src="/static/images/logo.png" width="134" height="200" class="img-fluid mx-auto d-flex">
-                                </a>
-                            </div>
-                            <div class="col">
-                                <a href="#">
-                                    <img src="/static/images/logo.png" width="134" height="200" class="img-fluid mx-auto d-flex">
-                                </a>
-                            </div>
-                            <div class="col">
-                                <a href="#">
-                                    <img src="/static/images/logo.png" width="134" height="200" class="img-fluid mx-auto d-flex">
-                                </a>
-                            </div>
-                            <div class="col">
-                                <a href="#">
-                                    <img src="/static/images/logo.png" width="134" height="200" class="img-fluid mx-auto d-flex">
-                                </a>
-                            </div>
-                        </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                        <img src="/static/images/posters/Persona-578772508-large.jpg" class="img-fluid mx-auto d-block" alt="img2">
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                        <img src="/static/images/logo.png" class="img-fluid mx-auto d-block" alt="img3">
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                        <img src="/static/images/posters/Persona-578772508-large.jpg" class="img-fluid mx-auto d-block" alt="img4">
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                        <img src="/static/images/logo.png" class="img-fluid mx-auto d-block" alt="img5">
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                        <img src="/static/images/posters/Persona-578772508-large.jpg" class="img-fluid mx-auto d-block" alt="img6">
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                        <img src="/static/images/logo.png" class="img-fluid mx-auto d-block" alt="img7">
+                    </div>
+                    <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                        <img src="/static/images/posters/Persona-578772508-large.jpg" class="img-fluid mx-auto d-block" alt="img8">
                     </div>
                 </div>
-                <a class="carousel-control-prev" href="#carouselTop10" role="button" data-slide="prev">
+                <a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Anterior</span>
+                    <span class="sr-only">Previous</span>
                 </a>
-                <a class="carousel-control-next" href="#carouselTop10" role="button" data-slide="next">
+                <a class="carousel-control-next" href="#carousel-example" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Siguiente</span>
+                    <span class="sr-only">Next</span>
                 </a>
             </div>
         </div>
@@ -166,6 +134,8 @@
             </div>
         </div>
     </footer>
+
+    <script src="/static/js/catalogo.js"></script>
     <!-- Scripts para funcionalidad DropDown -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
