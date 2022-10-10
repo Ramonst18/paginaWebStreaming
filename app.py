@@ -183,6 +183,15 @@ def registro_peliculas():
 #def cuenta():
 #    return render_template('mi_cuenta.html')
 
+# Modulo de contaco con la empresa
+@app.route('/contactar', methods=["GET", "POST"])
+def contactar():
+    
+    if request.method == 'POST':
+        print()
+        return render_template('contactar,html')
+    
+    return render_template('contactar.html')
 
 ### MÉTODOS PARA LOGIN Y REGISTRO
 # Método que valida si un email ya está registrado en la BD
