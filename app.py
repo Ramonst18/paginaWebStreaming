@@ -179,9 +179,9 @@ def registro_peliculas():
 
 # Modulo de cuenta del usuario
 # Aqui se podra actualizar los datos del cliente
-#@app.route('/mi_cuenta')
-#def cuenta():
-#    return render_template('mi_cuenta.html')
+@app.route('/mi_cuenta')
+def cuenta():
+    return render_template('mi_cuenta.html')
 
 # Modulo de contaco con la empresa
 @app.route('/contactar', methods=["GET", "POST"])
