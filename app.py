@@ -69,11 +69,11 @@ def login_admin():
                 session['ID_admin'] = ID_admin
                 return redirect('/registro_peliculas')
             else:
-                return render_template('login.html', error='Contraseña incorrecta')
+                return render_template('admin_login.html', error='Contraseña incorrecta')
         else:
-                return render_template('login.html', error='ID incorrecto')
+                return render_template('admin_login.html', error='ID incorrecto')
     else:   
-        return render_template('login.html', error=None)
+        return render_template('admin_login.html', error=None)
 
 
 # Módulo Logout
@@ -111,8 +111,8 @@ def registro_admin():
         if not id_registrado(request.form['id_admin']):
             if request.form['contraseña'] == request.form['confirmar_contraseña']:
                 registrar_admin(request.form.to_dict()) # Usar formulario convertido en diccionario como parámetro
-                session['id_admin'] = request.form['id_admin']
-                return redirect('/registro_peliculas') # Redirect provisional hasta tener la homepage del admin
+                session['ID_admin'] = request.form['id_admin']
+                return redirect('/catalogo') # Redirect provisional hasta tener la homepage del admin
             else:
                 return render_template('registro_admin.html',error="Las contraseñas no coinciden. Inténtelo de nuevo.")
         else:
@@ -179,10 +179,28 @@ def registro_peliculas():
 
 # Modulo de cuenta del usuario
 # Aqui se podra actualizar los datos del cliente
-@app.route('/mi_cuenta')
+@app.route('/mi_cuenta',methods=["GET", "POST"])
 def cuenta():
-    datos = dict()
-    return render_template('mi_cuenta.html', datos=datos)
+    if request.method == 'POST':
+        if 'email' in session:
+            actualizar_datos_cliente(request.form.to_dict(), session['email'])
+            
+            #atualizamos el email de sesion
+            session['email'] = request.form['email']
+            return render_template('mi_cuenta.html', cliente=obtener_cliente(session['email']))
+        elif 'ID_admin' in session:
+            actualizar_datos_admin(request.form.to_dict(), session['ID_admin'])
+            
+            return render_template('mi_cuenta.html', admin=obtener_admin(session['ID_admin']))
+    else:
+        if 'email' in session:
+            ## Mandamos la informacion del cliente a la pagina de mi cuenta
+            return render_template('mi_cuenta.html', cliente=obtener_cliente(session['email']))
+        elif 'ID_admin' in session:
+            ## Mandamos la informacion del administrador a la pagina de mi cuenta
+            return render_template('mi_cuenta.html', admin=obtener_admin(session['ID_admin']))
+        
+    
 
 # Modulo de contaco con la empresa
 @app.route('/contactar', methods=["GET", "POST"])
@@ -202,14 +220,14 @@ def email_registrado(email:str) -> bool:
     res = bd.execute_query_return(sql)
     return res[0][0] == 1
 
-
-def registrar_contacto(formulario_registro:dict):
+# Metodo que registra la informacion de la persona que se quiere contactar con la empresa
+def registrar_contacto(formulario_contacto:dict):
     sql = ("INSERT INTO Contacto(nombre, correo, telefono, mensaje)"
            "VALUES('{0}', '{1}', '{2}', '{3}');").format(
-               formulario_registro['c_nombre'],
-               formulario_registro['c_correo'],
-               formulario_registro['c_telefono'],
-               formulario_registro['c_mensaje'],
+               formulario_contacto['c_nombre'],
+               formulario_contacto['c_correo'],
+               formulario_contacto['c_telefono'],
+               formulario_contacto['c_mensaje'],
                
            )
            
@@ -263,12 +281,45 @@ def registrar_admin(formulario_registro:dict) -> None:
 
 # Metodo para buscar en la bd al admin con la ID dada por el formulario de inicio de sesion 
 def obtener_admin(ID:int) -> Administrador:
-    sql = "SELECT row_to_json(ID) FROM(SELECT * FROM Administradores WHERE id_admin='{0}') AS id_admin;".format(ID)
+    sql = "SELECT row_to_json(administrador) FROM (SELECT * FROM Administradores WHERE id_admin='{0}') AS administrador;".format(ID)
     res = bd.execute_query_return(sql)
     administrador_dict = res[0][0]
     admin = Administrador(**administrador_dict)
     return admin 
 
+
+# Método para actualizar los datos del cliente
+def actualizar_datos_cliente(formulario_usuario:dict, email):
+    sql = ("UPDATE Clientes SET "
+           "nombre='{0}',"
+           "apellido_paterno='{1}',"
+           "apellido_materno='{2}',"
+           "email='{3}',"
+           "telefono='{4}'"
+           " WHERE email='" + email + "';").format(
+               formulario_usuario['nombre'],
+               formulario_usuario['apellido_paterno'],
+               formulario_usuario['apellido_materno'],
+               formulario_usuario['email'],
+               formulario_usuario['telefono'],
+           )
+           
+    bd.execute_query(sql)
+    
+
+# Método para actualizar los datos del administrador
+def actualizar_datos_admin(formulario_admin:dict, id_admin):
+    sql = ("UPDATE Administradores SET "
+           "nombre='{0}',"
+           "apellido_paterno='{1}',"
+           "apellido_materno='{2}'"
+           " WHERE id_admin='" + id_admin + "';").format(
+               formulario_admin['nombre'],
+               formulario_admin['apellido_paterno'],
+               formulario_admin['apellido_materno'],
+           )
+           
+    bd.execute_query(sql)
 
 if __name__ == '__main__':
     app.run(debug=True)
