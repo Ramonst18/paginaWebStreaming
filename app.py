@@ -181,7 +181,8 @@ def registro_peliculas():
 # Aqui se podra actualizar los datos del cliente
 @app.route('/mi_cuenta')
 def cuenta():
-    return render_template('mi_cuenta.html')
+    datos = dict()
+    return render_template('mi_cuenta.html', datos=datos)
 
 # Modulo de contaco con la empresa
 @app.route('/contactar', methods=["GET", "POST"])
