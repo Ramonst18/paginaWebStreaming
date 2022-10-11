@@ -188,8 +188,9 @@ def registro_peliculas():
 def contactar():
     
     if request.method == 'POST':
-        print()
-        return render_template('contactar,html')
+        registrar_contacto(request.form.to_dict())
+        
+        return render_template('contactar.html')
     
     return render_template('contactar.html')
 
@@ -199,6 +200,19 @@ def email_registrado(email:str) -> bool:
     sql = "SELECT COUNT(id_cliente) FROM Clientes WHERE email='{0}';".format(email)
     res = bd.execute_query_return(sql)
     return res[0][0] == 1
+
+
+def registrar_contacto(formulario_registro:dict):
+    sql = ("INSERT INTO Contacto(nombre, correo, telefono, mensaje)"
+           "VALUES('{0}', '{1}', '{2}', '{3}');").format(
+               formulario_registro['c_nombre'],
+               formulario_registro['c_correo'],
+               formulario_registro['c_telefono'],
+               formulario_registro['c_mensaje'],
+               
+           )
+           
+    bd.execute_query(sql)
 
 
 # Método que registra en la BD un nuevo cliente con los datos del formulario
