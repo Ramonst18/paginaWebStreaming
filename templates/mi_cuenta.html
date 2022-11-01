@@ -34,11 +34,21 @@
             
                 <label for="telefono"><b>Teléfono</b></label><br>
                 <input type="text" name="telefono" value={{cliente.telefono}} /><br>
-
-
+                
                 <button type="submit" class="btn btn-dark">Actualizar datos</button>
             </div>
         </form>
+        
+        <!--Suscripcion-->
+        {% if suscripcion.vencimiento %}
+            <label for="suscripcion"><b>Fecha de vencimiento de la suscripcion</b></label><br>
+            <input type="text" name="suscripcion" value={{suscripcion.vencimiento}} /><br>
+        {% else %}
+            <label for="suscripcion"><b>No se posee suscripcion, de clic en el siguiente boton para solicitar una</b></label><br>
+            <a href="/suscripcion" class="button">Contratar suscripcion</a>
+        {%endif%}
+
+
     {% else %}
         <!--Parte del administrador-->
         <form action="" method="post">

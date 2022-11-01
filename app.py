@@ -175,7 +175,16 @@ def registro_peliculas():
 #@app.route('/admin_index')
 #def admin_index():
    
-
+#Modulo de suscricion
+#Aqui se podra contratar la suscricion
+# Módulo de navegar catálogo
+@app.route('/suscripcion', methods=["GET", "POST"])
+def ver_catalogo():
+    if request.method == 'POST':
+        #Aqui obtendremos los meses de suscripcion y el tiempo lo guardaremos en la tabla de suscripcion
+        return render_template()
+    else:
+        return render_template('suscripcion.html')
 
 # Modulo de cuenta del usuario
 # Aqui se podra actualizar los datos del cliente
