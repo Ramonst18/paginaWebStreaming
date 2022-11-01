@@ -187,6 +187,7 @@ def suscripcion():
         mesTarjeta = request.form["mes"]
         yearTarjeta = request.form["year"]
         ccvTarjeta = request.form["inputCCV"]
+        meses = request.form["meses"]
         
         # creamos el diccionario tarjeta
         
@@ -195,6 +196,7 @@ def suscripcion():
         print(mesTarjeta)
         print(yearTarjeta)
         print(ccvTarjeta)
+        print(meses)
         #Aqui obtendremos los meses de suscripcion y el tiempo lo guardaremos en la tabla de suscripcion
         return render_template('suscripcion.html')
     else:
