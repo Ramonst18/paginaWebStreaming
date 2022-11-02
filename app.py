@@ -179,10 +179,10 @@ def registro_peliculas():
 #Aqui se podra contratar la suscricion
 # Módulo de navegar catálogo
 @app.route('/suscripcion', methods=["GET", "POST"])
-def ver_catalogo():
+def suscripcion():
     if request.method == 'POST':
         #Aqui obtendremos los meses de suscripcion y el tiempo lo guardaremos en la tabla de suscripcion
-        return render_template()
+        return render_template('suscripcion.html')
     else:
         return render_template('suscripcion.html')
 
