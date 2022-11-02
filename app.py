@@ -181,6 +181,20 @@ def registro_peliculas():
 @app.route('/suscripcion', methods=["GET", "POST"])
 def suscripcion():
     if request.method == 'POST':
+        # Obtenemos los datos de la tarjeta
+        numeroTarjeta = request.form["inputNumero"]
+        nombreTarjeta = request.form["inputNombre"]
+        mesTarjeta = request.form["mes"]
+        yearTarjeta = request.form["year"]
+        ccvTarjeta = request.form["inputCCV"]
+        
+        # creamos el diccionario tarjeta
+        
+        print(numeroTarjeta)
+        print(nombreTarjeta)
+        print(mesTarjeta)
+        print(yearTarjeta)
+        print(ccvTarjeta)
         #Aqui obtendremos los meses de suscripcion y el tiempo lo guardaremos en la tabla de suscripcion
         return render_template('suscripcion.html')
     else:
@@ -196,7 +210,7 @@ def cuenta():
             
             #atualizamos el email de sesion
             session['email'] = request.form['email']
-            return render_template('mi_cuenta.html', cliente=obtener_cliente(session['email']))
+            return render_template('mi_cuenta.html', cliente=obtener_cliente(session['email']), suscripcion={})
         elif 'ID_admin' in session:
             actualizar_datos_admin(request.form.to_dict(), session['ID_admin'])
             
@@ -204,7 +218,7 @@ def cuenta():
     else:
         if 'email' in session:
             ## Mandamos la informacion del cliente a la pagina de mi cuenta
-            return render_template('mi_cuenta.html', cliente=obtener_cliente(session['email']))
+            return render_template('mi_cuenta.html', cliente=obtener_cliente(session['email']),suscripcion={})
         elif 'ID_admin' in session:
             ## Mandamos la informacion del administrador a la pagina de mi cuenta
             return render_template('mi_cuenta.html', admin=obtener_admin(session['ID_admin']))
