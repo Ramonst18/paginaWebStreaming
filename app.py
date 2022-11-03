@@ -5,6 +5,8 @@ from flask import Flask, render_template, request, session
 from passlib.hash import sha256_crypt
 from werkzeug.utils import redirect
 from Cliente import Cliente
+from datetime import datetime
+
 import json
 import os
 import secrets
@@ -181,22 +183,27 @@ def registro_peliculas():
 @app.route('/suscripcion', methods=["GET", "POST"])
 def suscripcion():
     if request.method == 'POST':
-        # Obtenemos los datos de la tarjeta
-        numeroTarjeta = request.form["inputNumero"]
-        nombreTarjeta = request.form["inputNombre"]
-        mesTarjeta = request.form["mes"]
-        yearTarjeta = request.form["year"]
-        ccvTarjeta = request.form["inputCCV"]
+        # Obtenemos los datos de la suscripcion
+        #numeroTarjeta = request.form["inputNumero"]
+        #nombreTarjeta = request.form["inputNombre"]
+        #mesTarjeta = request.form["mes"]
+        #yearTarjeta = request.form["year"]
+        #ccvTarjeta = request.form["inputCCV"]
         meses = request.form["meses"]
+        plan = request.form["plan"]
+        plan_id = 0
         
-        # creamos el diccionario tarjeta
+        #verificamos el tipo de plan y establecemos el id
+        if (plan == 'Basico'):
+            plan_id = 1
+        elif (plan == 'Plus'):
+            plan_id = 2
+        else:
+            plan_id = 3
         
-        print(numeroTarjeta)
-        print(nombreTarjeta)
-        print(mesTarjeta)
-        print(yearTarjeta)
-        print(ccvTarjeta)
-        print(meses)
+        fechaExpiracion = fecha_expiracion(meses)
+        print(fechaExpiracion)
+        
         #Aqui obtendremos los meses de suscripcion y el tiempo lo guardaremos en la tabla de suscripcion
         return render_template('suscripcion.html')
     else:
@@ -244,6 +251,32 @@ def email_registrado(email:str) -> bool:
     sql = "SELECT COUNT(id_cliente) FROM Clientes WHERE email='{0}';".format(email)
     res = bd.execute_query_return(sql)
     return res[0][0] == 1
+
+# Método que nos regresará la fecha en la cual se terminará la suscripcion
+def fecha_expiracion(meses):
+    """Se tiene que pasar el string de los meses que se toma de la pagina y la funcion
+    regresará la fecha en cual se expire la suscripcion"""
+
+    # tomamos los meses
+    listaMeses = meses.split(' ')
+    tiempoMeses = int(listaMeses[0])
+    now = datetime.now()
+    anio = now.year
+    mes = now.month + tiempoMeses
+
+    # verificamos el tiempo en dias y si es necesario cambiamos los meses
+
+    # verificamos el numero de meses y si es necesario cambiamos el año
+    if (mes >= 12):
+        anio += 1
+        mes = mes - 12
+
+
+
+    # creamos el string de la fecha
+    fechaExpiracion = f"{mes}/{anio}"
+    
+    return fechaExpiracion
 
 # Metodo que registra la informacion de la persona que se quiere contactar con la empresa
 def registrar_contacto(formulario_contacto:dict):
