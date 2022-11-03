@@ -1,6 +1,6 @@
 from json import JSONEncoder
 
-class Peliculas():
+class Pelicula():
     # Constructor
     def __init__(self, id_pelicula:int, titulo:str, año:int, director:str, genero:str, duracion:int,
                  elenco:str,calif_imbd:float,pais:str,clasif_por_edad:str,sinopsis:str,poster:str,
