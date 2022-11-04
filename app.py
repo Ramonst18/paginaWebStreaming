@@ -232,6 +232,7 @@ def cuenta():
             return render_template('mi_cuenta.html', admin=obtener_admin(session['ID_admin']))
     else:
         if 'email' in session:
+            
             suscripcion = obtener_suscripcion(obtener_id_cliente(session["email"]))
             
             ## Mandamos la informacion del cliente a la pagina de mi cuenta
@@ -268,9 +269,12 @@ def obtener_id_cliente(email):
 def obtener_suscripcion(id_cliente):
     sql = "SELECT * FROM suscripciones WHERE cliente_id='{0}';".format(id_cliente)
     res = bd.execute_query_return(sql)
-    suscripcion ={
-        "vencimiento":res[0][3]
-    }
+    try:
+        suscripcion ={
+            "vencimiento":res[0][3]
+        }
+    except:
+        suscripcion ={}
     return suscripcion
 
 def registrar_suscripcion(fechaActual, fechaExpiracion, cliente_id, plan_id):
