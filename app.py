@@ -204,10 +204,12 @@ def suscripcion():
         
         fechaActual = f"{now.day}/{now.month}/{now.year}"
         fechaExpiracion = fecha_expiracion(meses)
-        print(fechaExpiracion)
+        
+        #Realizamos el registro
+        registrar_suscripcion(fechaActual,fechaExpiracion, obtener_cliente(session["email"]).id_cliente,plan_id)
         
         #Aqui obtendremos los meses de suscripcion y el tiempo lo guardaremos en la tabla de suscripcion
-        return render_template('suscripcion.html')
+        return render_template('catalogo.html')
     else:
         return render_template('suscripcion.html')
 
@@ -219,17 +221,21 @@ def cuenta():
         if 'email' in session:
             actualizar_datos_cliente(request.form.to_dict(), session['email'])
             
+            suscripcion = obtener_suscripcion(obtener_id_cliente(session["email"]))
+            
             #atualizamos el email de sesion
             session['email'] = request.form['email']
-            return render_template('mi_cuenta.html', cliente=obtener_cliente(session['email']), suscripcion={})
+            return render_template('mi_cuenta.html', cliente=obtener_cliente(session['email']), suscripcion=suscripcion)
         elif 'ID_admin' in session:
             actualizar_datos_admin(request.form.to_dict(), session['ID_admin'])
             
             return render_template('mi_cuenta.html', admin=obtener_admin(session['ID_admin']))
     else:
         if 'email' in session:
+            suscripcion = obtener_suscripcion(obtener_id_cliente(session["email"]))
+            
             ## Mandamos la informacion del cliente a la pagina de mi cuenta
-            return render_template('mi_cuenta.html', cliente=obtener_cliente(session['email']),suscripcion={})
+            return render_template('mi_cuenta.html', cliente=obtener_cliente(session['email']),suscripcion=suscripcion)
         elif 'ID_admin' in session:
             ## Mandamos la informacion del administrador a la pagina de mi cuenta
             return render_template('mi_cuenta.html', admin=obtener_admin(session['ID_admin']))
@@ -254,6 +260,30 @@ def email_registrado(email:str) -> bool:
     res = bd.execute_query_return(sql)
     return res[0][0] == 1
 
+def obtener_id_cliente(email):
+    sql = "SELECT id_cliente FROM Clientes WHERE email='{0}';".format(email)
+    res = bd.execute_query_return(sql)
+    return res[0][0]
+
+def obtener_suscripcion(id_cliente):
+    sql = "SELECT * FROM suscripciones WHERE cliente_id='{0}';".format(id_cliente)
+    res = bd.execute_query_return(sql)
+    suscripcion ={
+        "vencimiento":res[0][3]
+    }
+    return suscripcion
+
+def registrar_suscripcion(fechaActual, fechaExpiracion, cliente_id, plan_id):
+    sql = ("INSERT INTO suscripciones(cliente_id, plan_id, fecha_contratación, fecha_vencimiento) "
+           "VALUES('{0}', '{1}', '{2}', '{3}');").format(
+               cliente_id,
+               plan_id,
+               fechaActual,
+               fechaExpiracion,
+           )
+           
+    bd.execute_query(sql)
+
 # Método que nos regresará la fecha en la cual se terminará la suscripcion
 def fecha_expiracion(meses):
     """Se tiene que pasar el string de los meses que se toma de la pagina y la funcion
@@ -266,11 +296,12 @@ def fecha_expiracion(meses):
     anio = now.year
     mes = now.month + tiempoMeses
     fechaExpiracion = f""
+    print(mes)
 
     # verificamos el numero de meses y si es necesario cambiamos el año
-    if (mes >= 12):
+    if (mes > 12):
         anio += 1
-        mes = mes - 12
+        mes -= 12
 
     # verificamos el tiempo en dias y si es necesario cambiamos el dia al ultimo dia del mes
     #Meses con 28 dias
@@ -279,8 +310,6 @@ def fecha_expiracion(meses):
         if(now.day>28):
             # creamos el string de la fecha
             fechaExpiracion = f"28/{mes}/{anio}"
-            
-    #meses con 30 dias
     elif (mes == 4 or mes == 6 or mes == 9 or mes == 11):
         #verificamos el dia que no sobrepase
         if(now.day>30):

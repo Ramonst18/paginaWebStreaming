@@ -132,13 +132,15 @@ const selectElementMeses = document.getElementById('meses');
 selectElementPlan.addEventListener('change', (event) => {
     const resultado = document.getElementById('costo');
 	//verificamos el plan
-	var precioFinal = calculosPrecio()
-    resultado.textContent = `${precioFinal}`;
+	var precioFinal = calculosPrecio();
+    resultado.textContent = `$${precioFinal} pesos`;
 });
 
 selectElementMeses.addEventListener('change',(event) => {
-    const resultado = document.getElementById('costo');
-    resultado.textContent = `Te gusta el sabor ${selectElementPlan.value} `;
+    const resultado = document.getElementById('costo');	
+	//verificamos el plan
+	var precioFinal = calculosPrecio();
+    resultado.textContent = `$${precioFinal} pesos.`;
 });
 
 function calculosPrecio(){
@@ -156,11 +158,13 @@ function calculosPrecio(){
 		precioPlan = 230;
 	}
 	else{
-
+		precioPlan = 0;
 	}
 
-	var cantidadMeses = selectElementMeses.value.split(" ")
-
+	var cantidadMesesLista = selectElementMeses.value.split(" ")
+	var cantidadMeses = parseInt(cantidadMesesLista[0])
 	
+	precioFinal = precioPlan * cantidadMeses;
+
 	return precioFinal;
 }
