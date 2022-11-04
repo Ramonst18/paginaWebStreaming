@@ -124,3 +124,43 @@ formulario.inputCCV.addEventListener('keyup', () => {
 	ccv.textContent = formulario.inputCCV.value;
 });
 
+//Para obtener los precios de la suscripcion
+const selectElementPlan = document.getElementById('plan');
+const selectElementMeses = document.getElementById('meses');
+
+//los eventos de escucha de los eventos
+selectElementPlan.addEventListener('change', (event) => {
+    const resultado = document.getElementById('costo');
+	//verificamos el plan
+	var precioFinal = calculosPrecio()
+    resultado.textContent = `${precioFinal}`;
+});
+
+selectElementMeses.addEventListener('change',(event) => {
+    const resultado = document.getElementById('costo');
+    resultado.textContent = `Te gusta el sabor ${selectElementPlan.value} `;
+});
+
+function calculosPrecio(){
+	var precioPlan = 0;
+	var precioFinal = 0
+
+	//calculo del plan
+	if(selectElementPlan.value == "Basico"){
+		precioPlan = 130;
+	}
+	else if(selectElementPlan.value == "Plus"){
+		precioPlan = 170;
+	}
+	else if(selectElementPlan.value == "Premium"){
+		precioPlan = 230;
+	}
+	else{
+
+	}
+
+	var cantidadMeses = selectElementMeses.value.split(" ")
+
+	
+	return precioFinal;
+}

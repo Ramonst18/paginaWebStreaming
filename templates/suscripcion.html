@@ -100,6 +100,7 @@
             <!--Campo para añadir la suscripcion-->
 			<label for="plan">Tipo de suscripcion</label>
 			<select name="plan" id="plan">
+				<option value="">Seleccione Uno …</option>
 				<option>Basico</option>
 				<option>Plus</option>
 				<option>Premium</option>
@@ -107,12 +108,15 @@
 
 			<label for="meses">Tiempo de suscripcion</label>
 			<select name="meses" id="meses">
+				<option value="">Seleccione Uno …</option>
+				<option>1 Mes</option>
 				<option>3 Meses</option>
 				<option>6 Meses</option>
 				<option>9 Meses</option>
 				<option>12 Meses</option>
 			</select>
 
+			<label class="costo" id="costo"></label>
 			<button type="submit" class="btn-enviar">Enviar</button>
 		</form>
 	</div>

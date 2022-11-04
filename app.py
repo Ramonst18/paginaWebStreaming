@@ -192,6 +192,7 @@ def suscripcion():
         meses = request.form["meses"]
         plan = request.form["plan"]
         plan_id = 0
+        now = datetime.now()
         
         #verificamos el tipo de plan y establecemos el id
         if (plan == 'Basico'):
@@ -201,6 +202,7 @@ def suscripcion():
         else:
             plan_id = 3
         
+        fechaActual = f"{now.day}/{now.month}/{now.year}"
         fechaExpiracion = fecha_expiracion(meses)
         print(fechaExpiracion)
         
@@ -263,19 +265,31 @@ def fecha_expiracion(meses):
     now = datetime.now()
     anio = now.year
     mes = now.month + tiempoMeses
-
-    # verificamos el tiempo en dias y si es necesario cambiamos los meses
+    fechaExpiracion = f""
 
     # verificamos el numero de meses y si es necesario cambiamos el año
     if (mes >= 12):
         anio += 1
         mes = mes - 12
 
+    # verificamos el tiempo en dias y si es necesario cambiamos el dia al ultimo dia del mes
+    #Meses con 28 dias
+    if (mes == 2):
+        #verificamos el dia que no sobrepase
+        if(now.day>28):
+            # creamos el string de la fecha
+            fechaExpiracion = f"28/{mes}/{anio}"
+            
+    #meses con 30 dias
+    elif (mes == 4 or mes == 6 or mes == 9 or mes == 11):
+        #verificamos el dia que no sobrepase
+        if(now.day>30):
+            # creamos el string de la fecha
+            fechaExpiracion = f"30/{mes}/{anio}"
+    else:
+        # creamos el string de la fecha
+        fechaExpiracion = f"{now.day}/{mes}/{anio}"
 
-
-    # creamos el string de la fecha
-    fechaExpiracion = f"{mes}/{anio}"
-    
     return fechaExpiracion
 
 # Metodo que registra la informacion de la persona que se quiere contactar con la empresa
