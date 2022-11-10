@@ -93,9 +93,7 @@
 						name="termino_busqueda"
 						required
 					/>
-					<button class="btn btn-light my-2 mr-3 my-sm-0" type="submit">
-						Buscar
-					</button>
+					<button class="btn btn-light my-2 mx-2" type="submit">Buscar</button>
 				</form>
 
 				{% if user %}
@@ -108,7 +106,7 @@
 					/>
 					Mi cuenta
 				</a>
-				<a href="/logout" class="btn btn-outline-light my-2 my-sm-0">Salir</a>
+				<a href="/logout" class="btn btn-outline-light mx-2 my-2">Salir</a>
 				{% else %}
 				<a href="/login" class="btn btn-outline-light">Iniciar Sesión</a>
 				{% endif %}
@@ -138,7 +136,7 @@
 						listaTop10[0].id_pelicula %}
 						<div class="carousel-item w-75 mx-auto active">
 							<div class="col">
-								<a href="#">
+								<a href="/ver/{{p.id_pelicula}}">
 									<img
 										title="{{p.titulo}}"
 										src="{{p.poster}}"
@@ -150,7 +148,7 @@
 						{% else %}
 						<div class="carousel-item w-75 mx-auto">
 							<div class="col">
-								<a href="#">
+								<a href="/ver/{{p.id_pelicula}}">
 									<img
 										title="{{p.titulo}}"
 										src="{{p.poster}}"
@@ -200,7 +198,7 @@
 						listaRecientes[0].id_pelicula %}
 						<div class="carousel-item w-75 mx-auto active">
 							<div class="col">
-								<a href="#">
+								<a href="/ver/{{p.id_pelicula}}">
 									<img src="{{p.poster}}" class="img-fluid mx-auto d-flex" />
 								</a>
 							</div>
@@ -208,7 +206,7 @@
 						{% else %}
 						<div class="carousel-item w-75 mx-auto">
 							<div class="col">
-								<a href="#">
+								<a href="/ver/{{p.id_pelicula}}">
 									<img src="{{p.poster}}" class="img-fluid mx-auto d-flex" />
 								</a>
 							</div>
@@ -255,7 +253,7 @@
 						listaRecientes[0].id_pelicula %}
 						<div class="carousel-item w-75 mx-auto active">
 							<div class="col">
-								<a href="#">
+								<a href="/ver/{{p.id_pelicula}}">
 									<img src="{{p.poster}}" class="img-fluid mx-auto d-flex" />
 								</a>
 							</div>
@@ -263,7 +261,7 @@
 						{% else %}
 						<div class="carousel-item w-75 mx-auto">
 							<div class="col">
-								<a href="#">
+								<a href="/ver/{{p.id_pelicula}}">
 									<img src="{{p.poster}}" class="img-fluid mx-auto d-flex" />
 								</a>
 							</div>

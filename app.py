@@ -179,6 +179,22 @@ def buscar_pelicula(titulo):
             return render_template('buscar_pelicula.html', user=None, titulo_busqueda=titulo, listaPeliculas=lista_peliculas)
 
 
+# Módulo para ver la ficha de una película
+@app.route('/ver/<id_pelicula>', methods=["GET","POST"])
+def vista_pelicula(id_pelicula):
+    if request.method == 'POST':
+        titulo = request.form['termino_busqueda']
+        url = ("/buscar/{0}").format(titulo)
+        return redirect(url)
+    else:
+        pelicula = obtener_pelicula(id_pelicula)
+        if 'email' in session:
+            usuario = session.get('email')
+            return render_template('pelicula.html', user=usuario, pelicula=pelicula)
+        else:
+            return render_template('pelicula.html', user=None, pelicula=pelicula)
+
+
 # Modulo de suscripcion. Aqui se podra contratar la suscripción
 @app.route('/suscripcion', methods=["GET", "POST"])
 def suscripcion():
@@ -493,6 +509,16 @@ def actualizar_datos_admin(formulario_admin: dict, id_admin):
 
 
 # MÉTODOS USADOS PARA NAVEGAR EL CATÁLOGO
+def obtener_pelicula(id) -> Pelicula:
+    sql = "SELECT row_to_json(pelicula) FROM (SELECT * FROM Peliculas WHERE id_pelicula = {0}) AS pelicula;".format(id)
+    
+    res = bd.execute_query_return(sql)
+    
+    pelicula = Pelicula(**res[0][0])
+    
+    return pelicula
+
+
 # Método para obtener una lista con las 10 películas más vistas
 def obtener_top_pelis() -> list['Pelicula']:
     sql = "SELECT json_agg(peliculas) FROM (SELECT * FROM Peliculas ORDER BY visualizaciones DESC LIMIT 10) AS peliculas;"
