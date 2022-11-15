@@ -1,85 +1,41 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Script-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <title>Iniciar sesion</title>
+    <title>Iniciar sesión (Administrador) | Kinoscope</title>
     <style>
-        body{
-            text-align: center;
-            position: relative;
-            
+        html, body, div {
+            /* Ajustar alto y ancho de la vista */
+            height: 100%;
+            width: 100%;
         }
     </style>
 </head>
-<body style="background-image: url('/static/images/banner_index.webp'); background-repeat: no-repeat; background-size: cover; background-position: center center; absolute;">
-    <!-- NavBar general -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-black" style="background-color: #000000;">
-        <a class="navbar-brand" href="#">
-            <img src="/static/images/logo.png" width="42" height="42" class="d-inline-block">
-            Kinoscope
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Catálogo <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                        Géneros
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Acción</a>
-                        <a class="dropdown-item" href="#">Drama</a>
-                        <a class="dropdown-item" href="#">Suspense</a>
-                        <a class="dropdown-item" href="#">...</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">Contacto</a>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Buscar película" aria-label="Search">
-                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Buscar</button>
-            </form>
-            
-            {% if user %}
-            <a class="navbar-brand" href="#">
-                <img src="/static/images/usuario_icon.png" width="42" height="42" class="d-inline-block">
-                Mi cuenta
-            </a> 
-            {% else %}
-            <a href="#" class="btn btn-light">Iniciar Sesión</a>
-            {% endif %}
-        </div>
-      </nav>
-      <div class="fondo" style="background-color:  #FFFFFF; height: 80%;
-      width: 35%; position: absolute;
-      top: 20%;
-      left: 35%;
-      margin: -25px 0 0 -25px;">
-        <br><br>
-      <h3>Iniciar sesion</h3>
-      <br><br> <br><br>
-    <form action="" method="post">
-    <input type="text" name="ID" placeholder="ID del administrador">
-    <br><br> 
-    <input type="text" name="password" placeholder="Contraseña">
-    <br><br> <br><br>
-    <button type="submit">Ingresar</button>
-
-
-</form>
-      </div>
-      
-
-
+<body>
+    <!-- Contenido -->
+    <div class="container">
+        <!-- Formulario login admin -->
+        <form action="" method="post">
+            <div class="container">
+                <h1>Iniciar sesión | Administrador</h1>
+                <hr>
+                
+                <label for="ID"><b>ID de administrador</b></label><br>
+                <input type="text" placeholder="Correo electrónico" name="ID" id="ID" required><br>
+                
+                <label for="password"><b>Contraseña</b></label><br>
+                <input type="password" placeholder="Contraseña" name="password" id="password" required><br>
+                
+                <hr>
+                {% if error %}
+                <span><strong>Error:</strong> {{ error }}</span><br>
+                {% endif %}
+                <button type="submit" class="btn btn-dark">Iniciar sesión</button>
+            </div>
+        </form>
+        <!-- Formulario login admin -->
+    </div>
+    <!-- Contenido -->
 </body>
 </html>

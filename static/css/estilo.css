@@ -1,0 +1,65 @@
+html,
+body,
+div {
+	/* Ajustar alto y ancho de la vista */
+	height: fit-content;
+	width: 100%;
+	background-color: #000000;
+	font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+		"Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin-top: 10px;
+	margin-left: 15px;
+}
+
+ul {
+	list-style: none;
+}
+
+.img-fluid {
+	max-width: 100%;
+	width: 134px;
+	max-height: 100%;
+	height: 200px;
+	object-fit: fill;
+}
+
+.dropdown-multicol {
+	width: 20em;
+}
+.dropdown-multicol > .dropdown-col {
+	display: inline-block;
+	width: fit-content;
+}
+
+.dropdown-item {
+	background-color: white !important;
+}
+
+.poster-list {
+	overflow: hidden;
+	position: relative;
+	z-index: 0;
+}
+
+.poster-list.-grid {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-left: -10px;
+}
+
+.poster-list-item {
+	display: block;
+	margin: 0 0 10px 10px;
+	overflow: hidden;
+	position: relative;
+	border-radius: 4px;
+}

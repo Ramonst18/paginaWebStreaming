@@ -1,0 +1,44 @@
+.titulo {
+	margin-left: 0px;
+	max-width: 75%;
+}
+
+.barra-info {
+	max-width: 75%;
+	-webkit-text-size-adjust: 100%;
+	font-size: 15px;
+	line-height: 20px;
+	-webkit-font-smoothing: antialiased;
+	-webkit-box-align: center;
+	align-items: flex-start;
+	box-sizing: inherit;
+	pointer-events: auto;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	display: flex;
+	flex-flow: row wrap;
+	color: #8197a4;
+}
+
+.barra-info.-dato {
+	margin-right: 15px;
+	vertical-align: middle;
+	justify-content: space-evenly;
+}
+
+.sinopsis {
+	font-weight: normal;
+	text-align: left;
+	max-width: 75%;
+	margin-top: 20px;
+}
+
+.detalles {
+	text-align: left;
+	max-width: 75%;
+}
+
+.detalles.-encabezado {
+	font-weight: bold;
+	color: #8197a4;
+}

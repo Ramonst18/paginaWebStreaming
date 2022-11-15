@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Kinoscope | Streaming</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <style>
@@ -19,14 +20,14 @@
             <img src="/static/images/logo.png" width="42" height="42" class="d-inline-block">
             Kinoscope
         </a>
-        <a href="#" class="btn btn-light">Iniciar Sesión</a>
+        <a href="/login" class="btn btn-light">Iniciar Sesión</a>
     </nav>
     <!-- NavBar exclusiva para index.html -->
     
     <!-- Vista index -->
     <div class="view" style="background-image: url('/static/images/banner_index.webp'); background-repeat: no-repeat; background-size: cover; background-position: center center;">
         <!-- Contenido -->
-        <div class="container">
+        <div class="container" style="background-color: rgba(0,0,0,0.5)!important;">
             <!-- Fila -->
             <div class="row">
                 <!-- columna -->
@@ -35,8 +36,8 @@
                     <hr class="hr-dark">
                     <h6 class="mb-4">Disfruta de la belleza del cine con Kinoscope,<br>
                         tu servicio de streaming de películas ideal.</h6>
-                        <a href="#" class="btn btn-light">Regístrate</a>
-                        <a href="/catalogo.html" class="btn btn-outline-light">Ver catálogo</a>
+                        <a href="/registro" class="btn btn-light">Regístrate</a>
+                        <a href="/catalogo" class="btn btn-outline-light">Ver catálogo</a>
                     </div>
                     <!-- Columna -->
                 </div>
@@ -53,8 +54,8 @@
                     <div class="col-md-12 text-white text-center">
                         <h2 class="footer-heading"><a href="#" class="logo">Kinoscope</a></h2>
                         <p class="menu">
-                            <a href="/">Inicio </a>
-                            <a href="/catalogo.html"> Catálogo </a>
+                            <a href="#">Inicio </a>
+                            <a href="/catalogo"> Catálogo </a>
                             <a href="#"> Contacto</a>
                         </p>
                     </div>

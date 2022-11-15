@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>Mi cuenta | Kinoscope</title>
+    
+</head>
+<body>
+    {% if cliente %}
+        <h1>Bienvenido {{cliente.nombre}} a la información de tu cuenta</h1>
+    {% else %}
+        <h1>Bienvenido {{admin.nombre}} a la información de tu cuenta</h1>
+    {% endif %}
+    <div>
+        <h2>Parte para modificar la cuenta</h2>
+    </div>
+
+    <!--Parte del cliente-->
+    {% if cliente %}
+        <form action="" method="post">
+            <div class="container">
+                <label for="nombre"><b>Nombre</b></label><br>
+                <input type="text" name="nombre" value={{cliente.nombre}} /><br>
+            
+                <label for="apellido_paterno"><b>Apellido paterno</b></label><br>
+                <input type="text" name="apellido_paterno" value={{cliente.apellido_paterno}} /><br>
+            
+                <label for="apellido_materno"><b>Apellido materno</b></label><br>
+                <input type="text" name="apellido_materno" value={{cliente.apellido_materno}} /><br>
+            
+                <label for="email"><b>Correo electrónico</b></label><br>
+                <input type="text" name="email" value={{cliente.email}} /><br>
+            
+                <label for="telefono"><b>Teléfono</b></label><br>
+                <input type="text" name="telefono" value={{cliente.telefono}} /><br>
+                
+                <button type="submit" class="btn btn-dark">Actualizar datos</button>
+            </div>
+        </form>
+        
+        <!--Suscripcion-->
+        {% if suscripcion.vencimiento %}
+            <label for="suscripcion"><b>Fecha de vencimiento de la suscripcion</b></label><br>
+            <input type="text" name="suscripcion" value={{suscripcion.vencimiento}} /><br>
+        {% else %}
+            <label for="suscripcion"><b>No se posee suscripcion</b></label><br>
+            <a href="/suscripcion" class="button">Contratar suscripcion</a>
+        {%endif%}
+
+
+    {% else %}
+        <!--Parte del administrador-->
+        <form action="" method="post">
+            <div class="container">
+                <label for="nombre"><b>Nombre</b></label><br>
+                <input type="text" name="nombre" value={{admin.nombre}} /><br>
+            
+                <label for="apellido_paterno"><b>Apellido paterno</b></label><br>
+                <input type="text" name="apellido_paterno" value={{admin.apellido_paterno}} /><br>
+            
+                <label for="apellido_materno"><b>Apellido materno</b></label><br>
+                <input type="text" name="apellido_materno" value={{admin.apellido_materno}} /><br>
+            
+                <button type="submit" class="btn btn-dark">Actualizar datos</button>
+            </div>
+        </form>
+    {% endif %}
+    <a href="/catalogo">regresar</a>
+</body>
