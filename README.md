@@ -11,7 +11,8 @@ Equipo:
   - León Saenz Jaime Jesús
   - López Vargas Jesús Ramón
   - Soto Véjar Raúl Sebastián
-
+  - Sanchez Morales Adriel Isidro
+  
 Materia: Prácticas de Desarrollo de Software II
 
 Profesor: Eduardo Bojórquez Martínez
